@@ -10,6 +10,8 @@
     "@types/styled-components": "^4.1.15",
     "react": "16.8.3",
     "react-native": "0.59.8",
+    "react-native-gesture-handler": "^1.2.1",
+    "react-native-responsive-screen": "^1.2.2",
     "styled-components": "^4.2.0"
   },
   "devDependencies": {
@@ -23,6 +25,10 @@
     "jest": "^24.8.0",
     "metro-react-native-babel-preset": "^0.54.1",
     "react-test-renderer": "16.8.3",
+    "tslint": "^5.16.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-config-standard": "^8.0.1",
+    "tslint-react": "^4.0.0",
     "typescript": "^3.4.5"
   },
   "jest": {
