@@ -1,0 +1,3 @@
+rootProject.name = 'rn_tinder_swipe'
+
+include ':app'
