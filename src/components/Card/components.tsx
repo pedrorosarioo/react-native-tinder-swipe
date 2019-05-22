@@ -3,13 +3,14 @@ import styled from 'styled-components/native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 export const Container = styled(Animated.View)`
-    position: relative;
+    position: absolute;
     border-radius: ${hp(3)}px;
     height: ${hp(70)}px;
     width: ${wp(80)}px;
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    align-self: center;
 `;
 
 export const AfirmativeLabel = styled.Text`
