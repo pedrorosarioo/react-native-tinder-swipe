@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import { StyleSheet,View } from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, View } from 'react-native';
 
 import TinderSwipe from './src';
 import mock from './src/assets/mock';
@@ -19,6 +19,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-between',
-    alignItems: 'center',
-  },
+    alignItems: 'center'
+  }
 });
