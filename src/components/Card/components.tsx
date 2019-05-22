@@ -17,7 +17,7 @@ export const Container = styled(Animated.View)`
 `;
 
 export const AfirmativeLabel = styled.Text`
-  fontsize: ${wp(5)};
+  font-size: ${wp(5)};
   padding: ${wp(2)}px;
   border: ${wp(0.8)}px solid green;
   border-radius: ${hp(1)}px;
@@ -53,7 +53,7 @@ export const ProfileImage = styled.Image`
 
 export const Label = styled.Text`
   color: #fff;
-  fontsize: ${wp(7)}px;
+  font-size: ${wp(7)}px;
   position: absolute;
   bottom: ${hp(3)};
   left: ${hp(3)};
