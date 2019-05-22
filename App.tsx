@@ -1,16 +1,15 @@
-
-
 import React, {Component} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import TinderSwipe from './src';
+import mock from './src/assets/mock';
 
 interface Props {}
 export default class App extends Component<Props> {
-  render() {
+  public render() {
     return (
       <View style={styles.container}>
-        <TinderSwipe />
+        <TinderSwipe data={mock} />
       </View>
     );
   }
@@ -19,7 +18,7 @@ export default class App extends Component<Props> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
 });
