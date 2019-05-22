@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong>Swipe cards simulating Tinder interface</strong><br>
-  The goal of <i>react-native-tinder-swipe<i> is that you also can set custom components to be rendered as card's content.
+  The goal of <i>react-native-tinder-swipe</i> is that you also can set custom components to be rendered as card's content.
 </p>
 <br/>
 <p align="center">
