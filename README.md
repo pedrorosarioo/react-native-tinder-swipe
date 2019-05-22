@@ -122,3 +122,7 @@ export interface CardInfo {
 Thanks for the visit!
 
 Pull requests, feedbacks and suggestions are welcome!
+
+## License
+
+[MIT License](http://opensource.org/licenses/mit-license.html). © Pedro Rosário
