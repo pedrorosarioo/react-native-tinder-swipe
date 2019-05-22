@@ -61,7 +61,7 @@ Case Android device:  `react-native run-android`
 ## A complete example
 
 The following example consists in the App.tsx component, wich renders only the TinderSwipe component.
-The TinderSwipe component, until now, have just one property: data. It's a payload used for it renders the cards.
+The TinderSwipe component, until now, have just one required property: data. It's a payload used for it renders the cards.
 
 ```javascript
 import React, {Component} from 'react';
