@@ -1,17 +1,32 @@
-import React from 'react';
-import Card from './components/Card';
+import React, { useState,  useReducer } from 'react';
+import { View, FlatList, ImageSourcePropType } from 'react-native';
+import Card, { CardInfo } from './components/Card';
+import styled from 'styled-components/native';
 
+const CardsContainer = styled.View`
+    flex: 1;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+`;
 
-class TinderSwipe extends React.Component<any, any> {
-    public render(){
-        return (
-            <Card 
-                name="Kashyra W."
-                profileImage={require('./assets/image1.jpg')}
-                age={25}
-            />
-        );
-    }
-}
+const TinderSwipe = (props: {data: CardInfo[]}) => { 
+    return (
+        <CardsContainer>
+            { props.data.map((item, index) => {
+                return (
+                    <Card 
+                        key={`card-${index}`}
+                        name={item.name}
+                        age={item.age}
+                        profileImage={item.profileImage}
+                        custom={item.custom}
+                    />
+                );
+            }) }
+        </CardsContainer>
+    );
+};
 
 export default TinderSwipe;
