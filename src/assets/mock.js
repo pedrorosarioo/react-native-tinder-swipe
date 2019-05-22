@@ -35,7 +35,7 @@ const Button = styled.TouchableOpacity`
 
 const MainComponent = () => (
     <Main>
-        <Button onPress={() => Alert.alert('And functionalites still works')}>
+        <Button onPress={() => Alert.alert('All custom component functionalities still works')}>
             <Label>Press it!{'\n'}This is a customized card</Label>
         </Button>
     </Main>
