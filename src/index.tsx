@@ -11,7 +11,7 @@ const CardsContainer = styled.View`
     width: 100%;
 `;
 
-const TinderSwipe = (props: {data: CardInfo[]}) => { 
+const TinderSwipe = (props: {data: CardInfo[], blockY?: boolean, blockX?: boolean, blockZ?: boolean}) => { 
     return (
         <CardsContainer>
             { props.data.map((item, index) => {
@@ -22,6 +22,9 @@ const TinderSwipe = (props: {data: CardInfo[]}) => {
                         age={item.age}
                         profileImage={item.profileImage}
                         custom={item.custom}
+                        blockRotateZ={props.blockZ}
+                        blockTranslateX={props.blockX}
+                        blockTranslateY={props.blockY}
                     />
                 );
             }) }

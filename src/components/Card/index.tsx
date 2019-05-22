@@ -17,6 +17,9 @@ export interface CardInfo {
 }
 
 interface IProps extends CardInfo {
+    blockTranslateX?: boolean;
+    blockTranslateY?: boolean;
+    blockRotateZ?: boolean;
     onSwipeLeft?: (item: CardInfo) => void;
     onSwipeRight?: (item: CardInfo) => void;
     onNotSwipe?: (item: CardInfo) => void;
@@ -115,7 +118,7 @@ class CardComponent extends React.PureComponent<IProps, any> {
 
     public render(){
         const { cardPosition: { x, y }} = this.state;
-        const { age, custom, name, profileImage } = this.props;
+        const { custom, name, profileImage, blockTranslateX, blockTranslateY, blockRotateZ } = this.props;
         
         const rotateZ = x.interpolate({
             inputRange: [-width/2, width/2],
@@ -134,22 +137,27 @@ class CardComponent extends React.PureComponent<IProps, any> {
 
         return (
         <Container
-         {...this._panResponder.panHandlers}
-         style={{transform: [{translateX: x}, {translateY: y}, {rotate: rotateZ}]}}
+            {...this._panResponder.panHandlers}
+            style={{transform: [
+                !blockTranslateX && {translateX: x},
+                !blockTranslateY && {translateY: y},
+                !blockRotateZ && {rotate: rotateZ}
+                ]
+            }}
         >   
             {
-                custom && custom.mainComponent() ||
-                <ProfileImage source={this.props.profileImage}/>
+                custom && custom.mainComponent && custom.mainComponent() ||
+                <ProfileImage source={profileImage}/>
             }     
             <AfirmativeLabelContainer style={{opacity: likeOpacity}}>
                 { 
-                  custom && custom.positiveLabelComponent() ||
+                  custom && custom.positiveLabelComponent && custom.positiveLabelComponent() ||
                   <AfirmativeLabel>LIKE</AfirmativeLabel>
                 }
             </AfirmativeLabelContainer>
             <NegativeLabelContainer style={{opacity: nopeOpacity}}>
                 { 
-                    custom && custom.negativeLabelComponent() ||
+                    custom && custom.negativeLabelComponent && custom.negativeLabelComponent() ||
                     <NegativeLabel>NOPE</NegativeLabel>
                 }
             </NegativeLabelContainer>

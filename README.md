@@ -113,9 +113,9 @@ export interface CardInfo {
 | onSwipeLeft             | (<a href="#card-info-type">CardInfo</a>) => void           | ---                       | Event that is fired when user swipes to left a card                                                                                                |
 | onSwipeRight             | (<a href="#card-info-type">CardInfo</a>) => void           | ---                       | Event that is fired when user swipes to right a card                                                                                                |
 | onNotSwipe             | (<a href="#card-info-type">CardInfo</a>) => void           | ---                       | Event that is fired when user return a card for it's default position                                                                                                |
-| BlockTranslateX                  | bool             | false                     | <strong>NOT IMPLEMENTED YET</strong> Block moves that translate the card horizontaly                                                                                                  |
-| BlockTranslateY                  | bool             | false                     | <strong>NOT IMPLEMENTED YET</strong> Block moves that translate the card vertically                                                                                                  |
-
+| blockX                  | bool             | false                     | Block moves that translate the card horizontaly                                                                                                  |
+| blockY                  | bool             | false                     | Block moves that translate the card vertically                                                                                                  |
+| blockZ                  | bool             | false                     | Block card rotation                                                                                                  |
 
 ## Acknowledgements
 
