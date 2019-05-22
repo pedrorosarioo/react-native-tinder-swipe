@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
 });
 ```
 
-The property data expects an array of the following <a href="#" id="card-info-type">type</a>:
+The property data expects an array of <a href="#card-info-type" id="card-info-type">CardInfo</a> type:
 
 ```javascript
 export interface CardInfo {
@@ -109,9 +109,9 @@ export interface CardInfo {
 | Name                           | Type             | Default                   | Description                                                                                                                                |
 | ------------------------------ | ---------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | data                    | <a href="#card-info-type">CardInfo</a> | []              | Payload that TinderSwipe expects. If it has custom attribute, so it will render your custom component even if it have the default attributes                                                                                                                      |
-| onSwipeLeft             | (<a href="card-info-type">CardInfo</a>) => void           | ---                       | Event that is fired when user swipes to left a card                                                                                                |
-| onSwipeRight             | (<a href="card-info-type">CardInfo</a>) => void           | ---                       | Event that is fired when user swipes to right a card                                                                                                |
-| onNotSwipe             | (<a href="card-info-type">CardInfo</a>) => void           | ---                       | Event that is fired when user return a card for it's default position                                                                                                |
+| onSwipeLeft             | (<a href="#card-info-type">CardInfo</a>) => void           | ---                       | Event that is fired when user swipes to left a card                                                                                                |
+| onSwipeRight             | (<a href="#card-info-type">CardInfo</a>) => void           | ---                       | Event that is fired when user swipes to right a card                                                                                                |
+| onNotSwipe             | (<a href="#card-info-type">CardInfo</a>) => void           | ---                       | Event that is fired when user return a card for it's default position                                                                                                |
 | BlockTranslateX                  | bool             | false                     | <strong>NOT IMPLEMENTED YET</strong> Block moves that translate the card horizontaly                                                                                                  |
 | BlockTranslateY                  | bool             | false                     | <strong>NOT IMPLEMENTED YET</strong> Block moves that translate the card vertically                                                                                                  |
 
