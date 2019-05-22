@@ -1,12 +1,29 @@
 import React from 'react';
 import {AfirmativeLabel, AfirmativeLabelContainer, NegativeLabel, NegativeLabelContainer, Container, Label, ProfileImage} from './components';
-import { Dimensions, Animated, PanResponder, PanResponderInstance } from 'react-native';
+import { Dimensions, Animated, PanResponder, PanResponderInstance, ImageSourcePropType } from 'react-native';
 
 
 const { width } = Dimensions.get('window');
 
+export interface CardInfo {
+    name: string;
+    profileImage: ImageSourcePropType;
+    age: number;
+    custom?: {
+        mainComponent: () => React.ReactNode;
+        positiveLabelComponent: () => React.ReactNode;
+        negativeLabelComponent: () => React.ReactNode;
+    };
+}
 
-class CardComponent extends React.PureComponent<any, any> {
+interface IProps extends CardInfo {
+    onSwipeLeft?: (item: CardInfo) => void;
+    onSwipeRight?: (item: CardInfo) => void;
+    onNotSwipe?: (item: CardInfo) => void;
+}
+
+
+class CardComponent extends React.PureComponent<IProps, any> {
 
     public state = {
         cardPosition: new Animated.ValueXY({ x: 0, y: 0}),
@@ -15,8 +32,12 @@ class CardComponent extends React.PureComponent<any, any> {
     private _offsets = {x: 0, y:0};
 
     private _getMoveValue = (liked: boolean, denied: boolean) => {
-        return liked && width/2 || denied && -width/2 || 0;
+        return liked && width || denied && -width || 0;
     } 
+
+    private _getOnMoveEvent = (liked: boolean, denied: boolean) => {
+        return liked && this.props.onSwipeRight || denied && this.props.onSwipeLeft || this.props.onNotSwipe;
+    };
 
 
     private _panResponder: PanResponderInstance = PanResponder.create({
@@ -29,6 +50,7 @@ class CardComponent extends React.PureComponent<any, any> {
         }]),
 
         onPanResponderRelease: (e, gestureState) => {
+            const { age, custom, name, profileImage, } = this.props;
             const { cardPosition } = this.state;
 
             this._offsets.x += gestureState.dx;
@@ -36,7 +58,9 @@ class CardComponent extends React.PureComponent<any, any> {
 
             const liked = this._offsets.x > width/4;
             const denied = this._offsets.x < -width/4;
-            const hasAction = liked || denied;
+            const hasSwiped = liked || denied;
+            const moveValue = this._getMoveValue(liked, denied);
+            const event = this._getOnMoveEvent(liked, denied);
 
             cardPosition.flattenOffset();
 
@@ -50,7 +74,7 @@ class CardComponent extends React.PureComponent<any, any> {
                 y: 0
             });
 
-            if (!hasAction) {
+            if (!hasSwiped) {
                 cardPosition.setValue({
                     x: this._offsets.x,
                     y: this._offsets.y,
@@ -62,17 +86,25 @@ class CardComponent extends React.PureComponent<any, any> {
             }
 
             Animated.timing(cardPosition.x, {
-                toValue: this._getMoveValue(liked, denied),
+                toValue: moveValue,
                 duration: 200,
             }).start(() => {
-                this._offsets.x = this._getMoveValue(liked, denied);
+                this._offsets.x = moveValue;
+                
                 cardPosition.setOffset({
                     x: this._offsets.x,
                     y: this._offsets.y
                 });
-                !hasAction && cardPosition.setValue({
+                !hasSwiped && cardPosition.setValue({
                     x: 0,
                     y: 0,
+                });
+                
+                event && event({
+                    age,
+                    custom,
+                    name,
+                    profileImage
                 });
             });
 
@@ -83,6 +115,7 @@ class CardComponent extends React.PureComponent<any, any> {
 
     public render(){
         const { cardPosition: { x, y }} = this.state;
+        const { age, custom, name, profileImage } = this.props;
         
         const rotateZ = x.interpolate({
             inputRange: [-width/2, width/2],
@@ -103,15 +136,24 @@ class CardComponent extends React.PureComponent<any, any> {
         <Container
          {...this._panResponder.panHandlers}
          style={{transform: [{translateX: x}, {translateY: y}, {rotate: rotateZ}]}}
-        >
-            <ProfileImage source={this.props.profileImage}/>
+        >   
+            {
+                custom && custom.mainComponent() ||
+                <ProfileImage source={this.props.profileImage}/>
+            }     
             <AfirmativeLabelContainer style={{opacity: likeOpacity}}>
-                <AfirmativeLabel>LIKE</AfirmativeLabel>
+                { 
+                  custom && custom.positiveLabelComponent() ||
+                  <AfirmativeLabel>LIKE</AfirmativeLabel>
+                }
             </AfirmativeLabelContainer>
             <NegativeLabelContainer style={{opacity: nopeOpacity}}>
-                <NegativeLabel>NOPE</NegativeLabel>
+                { 
+                    custom && custom.negativeLabelComponent() ||
+                    <NegativeLabel>NOPE</NegativeLabel>
+                }
             </NegativeLabelContainer>
-            <Label>{this.props.name || 'Anonymous User'}</Label>
+            { !custom && <Label>{name || ''}</Label> }
         </Container>
         );
     }
