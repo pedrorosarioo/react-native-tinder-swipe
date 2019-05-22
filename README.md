@@ -24,7 +24,7 @@
 
 ## Setup
 
-This library is not available on npm or yarn yet, isn't even done, test it with the following steps:
+This library is not available on npm or yarn yet, it isn't even done, test it with the following steps:
 
 ### Step 1: Installing the project
 
