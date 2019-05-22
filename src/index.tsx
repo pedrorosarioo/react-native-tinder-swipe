@@ -22,9 +22,9 @@ const TinderSwipe = (props: {data: CardInfo[], blockY?: boolean, blockX?: boolea
                         age={item.age}
                         profileImage={item.profileImage}
                         custom={item.custom}
-                        blockRotateZ={props.blockZ}
-                        blockTranslateX={props.blockX}
-                        blockTranslateY={props.blockY}
+                        blockRotateZ={props.blockZ!}
+                        blockTranslateX={props.blockX!}
+                        blockTranslateY={props.blockY!}
                     />
                 );
             }) }

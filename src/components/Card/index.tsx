@@ -139,9 +139,9 @@ class CardComponent extends React.PureComponent<IProps, any> {
         <Container
             {...this._panResponder.panHandlers}
             style={{transform: [
-                !blockTranslateX && {translateX: x},
-                !blockTranslateY && {translateY: y},
-                !blockRotateZ && {rotate: rotateZ}
+                {translateX: blockTranslateX ? 0 : x},
+                {translateY: blockTranslateY ? 0 : y},
+                {rotate: blockRotateZ ? 0 : rotateZ}
                 ]
             }}
         >   
