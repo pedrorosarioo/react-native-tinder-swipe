@@ -1,5 +1,4 @@
-import React, { useState, useReducer } from 'react';
-import { View, FlatList, ImageSourcePropType, Button, TouchableOpacity, Text } from 'react-native';
+import React from 'react';
 import Card, { CardInfo } from './components/Card';
 import styled from 'styled-components/native';
 
@@ -95,6 +94,6 @@ class TinderSwipe extends React.PureComponent<IProps, any> {
     );
   }
   
-};
+}
 
 export default TinderSwipe;
