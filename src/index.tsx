@@ -85,7 +85,7 @@ class TinderSwipe extends React.PureComponent<IProps, any> {
               blockTranslateX={this.props.blockX!}
               blockTranslateY={this.props.blockY!}
               onSwipeLeft={(card: CardInfo) => this._onSwipe(card, false)}
-              onSwipeRight={(card: CardInfo) => this._onSwipe(card, false)}
+              onSwipeRight={(card: CardInfo) => this._onSwipe(card, true)}
             />
           );
         })}
