@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 
 import TinderSwipe from './src';
 import mock from './src/assets/mock';
 
 interface Props {}
 export default class App extends Component<Props> {
+
+  private _tinderSwipe: TinderSwipe | null = null;
+
   public render() {
     return (
       <View style={styles.container}>
-        <TinderSwipe data={mock} />
+        <TinderSwipe ref={(ref) => this._tinderSwipe = ref} data={mock} />
+        <TouchableOpacity onPress={() => this._tinderSwipe!.pop(true)}>
+        <Text>SWIPE</Text>
+      </TouchableOpacity>  
       </View>
     );
   }

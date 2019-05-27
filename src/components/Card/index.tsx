@@ -33,6 +33,7 @@ interface IProps extends CardInfo {
   blockTranslateX?: boolean;
   blockTranslateY?: boolean;
   blockRotateZ?: boolean;
+  index: number;
   onSwipeLeft?: (item: CardInfo) => void;
   onSwipeRight?: (item: CardInfo) => void;
   onNotSwipe?: (item: CardInfo) => void;
@@ -44,6 +45,27 @@ class CardComponent extends React.PureComponent<IProps, any> {
   };
 
   private _offsets = { x: 0, y: 0 };
+
+  public swipeLeft = () => {
+    const { age, custom, name, profileImage, onSwipeLeft } = this.props;
+    const { cardPosition: { x } } = this.state;
+    Animated.timing(x, {
+      toValue: -1.5 * width,
+      duration: 400
+    }).start();
+    return onSwipeLeft && onSwipeLeft({age, custom, name, profileImage});
+  }
+
+  public swipeRight = () => {
+    const { age, custom, name, profileImage, onSwipeRight } = this.props;
+    const { cardPosition: { x } } = this.state;
+    Animated.timing(x, {
+      toValue: 1.5 * width,
+      duration: 400
+    }).start();
+    return onSwipeRight && onSwipeRight({age, custom, name, profileImage});
+  }
+
 
   private _getMoveValue = (liked: boolean, denied: boolean) => {
     return (liked && width) || (denied && -width) || 0;
