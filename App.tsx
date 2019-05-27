@@ -13,9 +13,12 @@ export default class App extends Component<Props> {
     return (
       <View style={styles.container}>
         <TinderSwipe ref={(ref) => this._tinderSwipe = ref} data={mock} />
+        <TouchableOpacity onPress={() => this._tinderSwipe!.pop()}>
+          <Text>SWIPE LEFT</Text>
+        </TouchableOpacity>
         <TouchableOpacity onPress={() => this._tinderSwipe!.pop(true)}>
-        <Text>SWIPE</Text>
-      </TouchableOpacity>  
+          <Text>SWIPE RIGHT</Text>
+        </TouchableOpacity>    
       </View>
     );
   }
