@@ -30,7 +30,10 @@ class TinderSwipe extends React.PureComponent<IProps, any> {
 
   private _cards: CardRef[] = [];
 
+
+  // UPDATE CURRENT INDEX AND CALL APPROPRIATED SWIPE EVENT
   private _onSwipe = (card: CardInfo, liked?: boolean) => {
+
     const { onSwipeLeft, onSwipeRight, data } = this.props;
     const { currentIndex } = this.state;
     const event = liked && onSwipeRight || onSwipeLeft;
@@ -40,25 +43,29 @@ class TinderSwipe extends React.PureComponent<IProps, any> {
     if (event) {
       return event(card);
     }
+
   }
 
+  // SWIPE LEFT OR RIGHT THE CURRENT CARD
   public pop = (liked?: boolean) => {
+
     const { currentIndex } = this.state;
     const card = this._cards[currentIndex];
     const cardInfo = this.props.data[currentIndex];
-
     if (!card) {
       return null;
     }
-
     const swipe = liked && card.swipeRight || card.swipeLeft;
     return swipe();
 
   }
 
+  // APPEND A NEW CARD
   public push = (info: CardInfo) => {
+
     const { currentIndex } = this.state;
     this.setState({ currentIndex: currentIndex + 1 });
+
   }
 
   public render() {
