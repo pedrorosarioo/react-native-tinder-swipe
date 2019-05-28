@@ -37,6 +37,7 @@ interface IProps extends CardInfo {
   onSwipeLeft?: (item: CardInfo) => void;
   onSwipeRight?: (item: CardInfo) => void;
   onNotSwipe?: (item: CardInfo) => void;
+  onSwipeHasDone?: (item: CardInfo) => void;
 }
 
 class CardComponent extends React.PureComponent<IProps, any> {
@@ -47,22 +48,22 @@ class CardComponent extends React.PureComponent<IProps, any> {
   private _offsets = { x: 0, y: 0 };
 
   public swipeLeft = () => {
-    const { age, custom, name, profileImage, onSwipeLeft } = this.props;
+    const { age, custom, name, profileImage, onSwipeLeft, onSwipeHasDone } = this.props;
     const { cardPosition: { x } } = this.state;
     Animated.timing(x, {
       toValue: -1.5 * width,
       duration: 400
-    }).start();
+    }).start(() => onSwipeHasDone && onSwipeHasDone({age, custom, name, profileImage}));
     return onSwipeLeft && onSwipeLeft({age, custom, name, profileImage});
   }
 
   public swipeRight = () => {
-    const { age, custom, name, profileImage, onSwipeRight } = this.props;
+    const { age, custom, name, profileImage, onSwipeRight, onSwipeHasDone } = this.props;
     const { cardPosition: { x } } = this.state;
     Animated.timing(x, {
       toValue: 1.5 * width,
       duration: 400
-    }).start();
+    }).start(() => onSwipeHasDone && onSwipeHasDone({age, custom, name, profileImage}));
     return onSwipeRight && onSwipeRight({age, custom, name, profileImage});
   }
 
@@ -91,7 +92,7 @@ class CardComponent extends React.PureComponent<IProps, any> {
     ]),
 
     onPanResponderRelease: (e, gestureState) => {
-      const { age, custom, name, profileImage } = this.props;
+      const { age, custom, name, profileImage, onSwipeHasDone } = this.props;
       const { cardPosition } = this.state;
 
       this._offsets.x += gestureState.dx;
@@ -151,6 +152,7 @@ class CardComponent extends React.PureComponent<IProps, any> {
             name,
             profileImage
           });
+          onSwipeHasDone && onSwipeHasDone({age, custom, name, profileImage});
       });
     }
   });

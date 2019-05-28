@@ -18,29 +18,50 @@ interface IProps {
   onSwipeLeft?: (card: CardInfo) => void;
   onSwipeRight?: (card: CardInfo) => void;
   onNotSwipe?: (card: CardInfo) => void;
+  onSwipeHasDone?: (card: CardInfo) => void;
 }
 
 type CardRef = Card | null;
 
-class TinderSwipe extends React.PureComponent<IProps, any> {
+class TinderSwipe extends React.Component<IProps, any> {
   public state = {
-    currentIndex: this.props.data.length-1
+    pushedCards: [] as any,
+    currentIndex: this.props.data.length-1,
+    pushedCardsSwipped: 0
   };
 
-  private _cards: CardRef[] = [];
+  public shouldComponentUpdate(nextProps: IProps, nextState: any) {
+    return this.state.pushedCards !== nextState.pushedCards;
+  }
+
+  private _propCardRefs: CardRef[] = [];
+  private _pushedCardRefs: CardRef[] = [];
 
 
   // UPDATE CURRENT INDEX AND CALL APPROPRIATED SWIPE EVENT
   private _onSwipe = (card: CardInfo, liked?: boolean) => {
 
     const { onSwipeLeft, onSwipeRight, data } = this.props;
-    const { currentIndex } = this.state;
+    const { currentIndex, pushedCardsSwipped } = this.state;
     const event = liked && onSwipeRight || onSwipeLeft;
-    
-    this.setState({ currentIndex: currentIndex-1 });
+    const isUsingPushedCards = currentIndex < 0;
 
+    this.setState({ currentIndex: currentIndex-1, pushedCardsSwipped: isUsingPushedCards && pushedCardsSwipped + 1 || 0 });
+    if (isUsingPushedCards) {
+      this._pushedCardRefs.pop();
+    }
+    
     if (event) {
       return event(card);
+    }
+
+  }
+
+  private _onSwipeHasDone = (card: CardInfo) => {
+    const { onSwipeHasDone } = this.props;
+
+    if (onSwipeHasDone) {
+      onSwipeHasDone(card);
     }
 
   }
@@ -49,21 +70,41 @@ class TinderSwipe extends React.PureComponent<IProps, any> {
   public pop = (liked?: boolean) => {
 
     const { currentIndex } = this.state;
-    const card = this._cards[currentIndex];
-    const cardInfo = this.props.data[currentIndex];
+    const propCard = this._propCardRefs[currentIndex];
+    const pushedCard = this._pushedCardRefs[0];
+    const card = propCard || pushedCard;
     if (!card) {
       return null;
     }
     const swipe = liked && card.swipeRight || card.swipeLeft;
-    return swipe();
-
+    
+    swipe();
+    
+    
   }
 
-  // APPEND A NEW CARD
-  public push = (info: CardInfo) => {
+  public push = (cards: CardInfo[]) => {
+    this.setState((state: any) => ({ pushedCards: [... state.pushedCards.slice(state.pushedCardsSwipped-1), ...cards], pushedCardsSwipped: 0 } ));
+  }
 
-    const { currentIndex } = this.state;
-    this.setState({ currentIndex: currentIndex + 1 });
+  private _renderCard = (item: CardInfo, index: number, pushed?: boolean) => {
+    return (
+      <Card
+        ref={(ref) => pushed? this._pushedCardRefs.unshift(ref) : this._propCardRefs.push(ref)}
+        key={`card-${index}`}
+        name={item.name}
+        age={item.age}
+        index={index}
+        profileImage={item.profileImage}
+        custom={item.custom}
+        blockRotateZ={this.props.blockZ!}
+        blockTranslateX={this.props.blockX!}
+        blockTranslateY={this.props.blockY!}
+        onSwipeLeft={(card: CardInfo) => this._onSwipe(card, false)}
+        onSwipeRight={(card: CardInfo) => this._onSwipe(card, true)}
+        onSwipeHasDone={(card: CardInfo) => this._onSwipeHasDone(card)}
+      />
+    );
 
   }
 
@@ -71,24 +112,8 @@ class TinderSwipe extends React.PureComponent<IProps, any> {
     return (
       <>
       <CardsContainer>
-        {this.props.data.map((item, index) => {
-          return (
-            <Card
-              ref={(ref) => this._cards[index] = ref}
-              key={`card-${index}`}
-              name={item.name}
-              age={item.age}
-              index={index}
-              profileImage={item.profileImage}
-              custom={item.custom}
-              blockRotateZ={this.props.blockZ!}
-              blockTranslateX={this.props.blockX!}
-              blockTranslateY={this.props.blockY!}
-              onSwipeLeft={(card: CardInfo) => this._onSwipe(card, false)}
-              onSwipeRight={(card: CardInfo) => this._onSwipe(card, true)}
-            />
-          );
-        })}
+        {this.state.pushedCards.map((item: any, index: any) => this._renderCard(item, index, true))}
+        {this.props.data.map((item, index) => this._renderCard(item, index))}
       </CardsContainer>  
       </>
     );

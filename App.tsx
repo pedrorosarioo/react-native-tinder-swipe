@@ -5,14 +5,16 @@ import TinderSwipe from './src';
 import mock from './src/assets/mock';
 
 interface Props {}
-export default class App extends Component<Props> {
+export default class App extends Component<Props, any> {
 
+  
   private _tinderSwipe: TinderSwipe | null = null;
+  private _data = mock.slice();
 
   public render() {
     return (
       <View style={styles.container}>
-        <TinderSwipe ref={(ref) => this._tinderSwipe = ref} data={mock} />
+        <TinderSwipe ref={(ref) => this._tinderSwipe = ref} data={this._data} onSwipeHasDone={() => this._tinderSwipe!.push([{ name: 'PUSHED CARD', age: 25, profileImage: require('./src/assets/image1.jpg')}]) } />
         <TouchableOpacity onPress={() => this._tinderSwipe!.pop()}>
           <Text>SWIPE LEFT</Text>
         </TouchableOpacity>
