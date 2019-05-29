@@ -113,9 +113,54 @@ export interface CardInfo {
 | onSwipeLeft             | (<a href="#card-info-type">CardInfo</a>) => void           | ---                       | Event that is fired when user swipes to left a card                                                                                                |
 | onSwipeRight             | (<a href="#card-info-type">CardInfo</a>) => void           | ---                       | Event that is fired when user swipes to right a card                                                                                                |
 | onNotSwipe             | (<a href="#card-info-type">CardInfo</a>) => void           | ---                       | Event that is fired when user return a card for it's default position                                                                                                |
+
+| onSwipeHasDone            | (<a href="#card-info-type">CardInfo</a>) => void           | ---                       | Event that is fired when swipe animation ends                                                                                                |
 | blockX                  | bool             | false                     | Block moves that translate the card horizontaly                                                                                                  |
 | blockY                  | bool             | false                     | Block moves that translate the card vertically                                                                                                  |
 | blockZ                  | bool             | false                     | Block card rotation                                                                                                  |
+| disableSwipe                  | bool             | false                     | Block all moves removing the panHandlers                                                                                                  |
+
+## Methods
+
+#### push( <a href="#card-info-type">CardInfo</a>[] ):
+
+Insert new values on the bottom of the stack.
+
+#### Example:
+
+```javascript
+  private _tinderSwipe: TinderSwipe | null = null;
+
+  private _onPush = () => {
+    this.setState({index: this.state.index+1});
+
+    if (this.state.index < 40) {
+      this._tinderSwipe!.push([
+        { 
+          name: `PUSHED CARD ${this.state.index}`,
+          age: 25, profileImage: require('./src/assets/image1.jpg')
+        },
+        { 
+          name: `PUSHED CARD ${this.state.index}`,
+          age: 25, profileImage: require('./src/assets/image1.jpg')
+        }
+      ]);
+    }
+  }
+```
+
+Get tinderSwipe reference and use onPush function in an event (onSwipeLeft in this case):
+
+```javascript
+  <TinderSwipe
+    ref={(ref) => this._tinderSwipe = ref}
+    data={this._data}
+    onSwipeLeft={() =>  this._onPush()} 
+    blockY
+  />
+```
+
+OBS: As soon as possible tinderSwipe gonna stop being a class component to use react hooks. PR's are welcome! :)
 
 ## Acknowledgements
 
