@@ -69,7 +69,6 @@ class TinderSwipe extends React.Component<IProps, any> {
 
   // SWIPE LEFT OR RIGHT THE CURRENT CARD
   public pop = (liked?: boolean) => {
-    const { disableSwipe } = this.props;
     const { currentIndex } = this.state;
     const propCard = this._propCardRefs[currentIndex];
     const pushedCard = this._pushedCardRefs[0];
@@ -79,7 +78,7 @@ class TinderSwipe extends React.Component<IProps, any> {
     }
     const swipe = liked && card.swipeRight || card.swipeLeft;
     
-    return !disableSwipe && swipe();
+    return swipe();
     
     
   }

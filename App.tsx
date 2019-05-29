@@ -19,7 +19,6 @@ export default class App extends Component<Props, any> {
           data={this._data}
           onSwipeHasDone={() => this._tinderSwipe!.push([{ name: 'PUSHED CARD', age: 25, profileImage: require('./src/assets/image1.jpg')}]) } 
           blockY
-          disableSwipe
         />
         <TouchableOpacity onPress={() => this._tinderSwipe!.pop()}>
           <Text>SWIPE LEFT</Text>
