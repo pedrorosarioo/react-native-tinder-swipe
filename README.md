@@ -128,7 +128,6 @@ Insert new values on the bottom of the stack.
 #### Example:
 
 ```javascript
-  private _tinderSwipe: TinderSwipe | null = null;
 
   private _onPush = () => {
     this.setState({index: this.state.index+1});
@@ -157,6 +156,32 @@ Get tinderSwipe reference and use onPush function in an event (onSwipeLeft in th
     onSwipeLeft={() =>  this._onPush()} 
     blockY
   />
+```
+
+#### pop( liked?: boolean ):
+
+Removes the card on top of stack. If liked, it will swipe right, otherwise, it will swipe left.
+
+#### Example:
+
+Get TinderSwipe ref:
+
+```javascript
+  <TinderSwipe
+    ref={(ref) => this._tinderSwipe = ref}
+    data={this._data}
+  />
+```
+
+Then use pop method to create buttons that controlls swipe right and swipe left:
+
+```javascript
+  <TouchableOpacity onPress={() => this._tinderSwipe!.pop()}>
+    <Text>SWIPE LEFT</Text>
+  </TouchableOpacity>
+  <TouchableOpacity onPress={() => this._tinderSwipe!.pop(true)}>
+    <Text>SWIPE RIGHT</Text>
+  </TouchableOpacity>    
 ```
 
 OBS: As soon as possible tinderSwipe gonna stop being a class component to use react hooks. PR's are welcome! :)
