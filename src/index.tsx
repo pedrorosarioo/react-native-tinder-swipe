@@ -47,7 +47,7 @@ class TinderSwipe extends React.Component<IProps, any> {
     const event = liked && onSwipeRight || onSwipeLeft;
     const isUsingPushedCards = currentIndex < 0;
 
-    this.setState({ currentIndex: currentIndex-1, pushedCardsSwipped: isUsingPushedCards && pushedCardsSwipped + 1 || 0 });
+    this.setState({ currentIndex: currentIndex-1});
     if (isUsingPushedCards) {
       this._pushedCardRefs.pop();
     }
@@ -71,7 +71,7 @@ class TinderSwipe extends React.Component<IProps, any> {
   public pop = (liked?: boolean) => {
     const { currentIndex } = this.state;
     const propCard = this._propCardRefs[currentIndex];
-    const pushedCard = this._pushedCardRefs[0];
+    const pushedCard = this._pushedCardRefs[this.state.pushedCards.length + currentIndex];
     const card = propCard || pushedCard;
     if (!card) {
       return null;
@@ -83,23 +83,8 @@ class TinderSwipe extends React.Component<IProps, any> {
     
   }
 
-  public push = (cards: CardInfo[]) => {
-    this.setState((state: any) => ({ pushedCards: [... state.pushedCards.slice(state.pushedCardsSwipped-1), ...cards], pushedCardsSwipped: 0 } ));
-  }
-
-  private isLocked = (index: number, pushed: boolean) => {
-    const { disableSwipe } = this.props;
-    const { currentIndex } = this.state;
-
-    if (disableSwipe) {
-      return true;
-    }
-
-    if ( currentIndex > 0 ) {
-      return index === currentIndex;
-    }
-
-    return pushed && index !== 0;
+  public push = (card: CardInfo) => {
+    this.setState((state: any) => ({ pushedCards: [... state.pushedCards, card].reverse(), pushedCardsSwipped: 0 } ));
   }
 
   private _renderCard = (item: CardInfo, index: number, pushed?: boolean) => {

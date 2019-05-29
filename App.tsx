@@ -7,7 +7,17 @@ import mock from './src/assets/mock';
 interface Props {}
 export default class App extends Component<Props, any> {
 
-  
+  public state = { 
+    index: 0
+  };
+
+  private _onPush = () => {
+    this.setState({index: this.state.index+1});
+
+    if (this.state.index < 40)
+    this._tinderSwipe!.push({ name: `PUSHED CARD ${this.state.index}`, age: 25, profileImage: require('./src/assets/image1.jpg')});
+    
+  }
   private _tinderSwipe: TinderSwipe | null = null;
   private _data = mock.slice();
 
@@ -17,7 +27,7 @@ export default class App extends Component<Props, any> {
         <TinderSwipe
           ref={(ref) => this._tinderSwipe = ref}
           data={this._data}
-          onSwipeHasDone={() => this._tinderSwipe!.push([{ name: 'PUSHED CARD', age: 25, profileImage: require('./src/assets/image1.jpg')}]) } 
+          onSwipeLeft={() =>  this._onPush()} 
           blockY
         />
         <TouchableOpacity onPress={() => this._tinderSwipe!.pop()}>
