@@ -13,12 +13,12 @@ export const Container = styled(Animated.View).attrs(props => {
 })`
   position: absolute;
   border-radius: ${hp(3)}px;
-  height: ${hp(70)}px;
-  width: ${wp(80)}px;
+  ${props => !props.hasCustom ? `height: ${hp(70)}px; width: ${wp(80)}px` : null}
   align-items: center;
   justify-content: center;
   overflow: hidden;
   align-self: center;
+  z-index: ${props => props.zIndex}
 `;
 
 export const AfirmativeLabel = styled.Text`

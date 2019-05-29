@@ -2,10 +2,14 @@ import React from 'react';
 import styled from 'styled-components/native';
 import { Alert } from 'react-native';
 const profileImage = require('./image1.jpg');
+import {
+    widthPercentageToDP as wp,
+    heightPercentageToDP as hp
+  } from 'react-native-responsive-screen';
 
 const Main = styled.View`
-    height: 100%;
-    width: 100%;
+    height: ${hp(70)}px;
+    width: ${wp(80)}px;
     background-color: #ddd;
     align-items: center;
     justify-content: center;

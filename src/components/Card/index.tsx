@@ -35,6 +35,7 @@ interface IProps extends CardInfo {
   blockRotateZ?: boolean;
   movesLocked?: boolean;
   index: number;
+  pushed?: boolean;
   onSwipeLeft?: (item: CardInfo) => void;
   onSwipeRight?: (item: CardInfo) => void;
   onNotSwipe?: (item: CardInfo) => void;
@@ -190,6 +191,8 @@ class CardComponent extends React.PureComponent<IProps, any> {
     return (
       <Container
         panResponder={!movesLocked && this._panResponder}
+        zIndex={this.props.index}
+        hasCustom={custom && custom.mainComponent}
         style={{
           transform: [
             { translateX: blockTranslateX ? 0 : x },

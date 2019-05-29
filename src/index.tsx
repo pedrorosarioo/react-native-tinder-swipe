@@ -1,6 +1,7 @@
 import React from 'react';
 import Card, { CardInfo } from './components/Card';
 import styled from 'styled-components/native';
+import {View} from 'react-native';
 
 const CardsContainer = styled.View`
   flex: 1;
@@ -64,7 +65,6 @@ class TinderSwipe extends React.Component<IProps, any> {
     if (onSwipeHasDone) {
       onSwipeHasDone(card);
     }
-
   }
 
   // SWIPE LEFT OR RIGHT THE CURRENT CARD
@@ -94,7 +94,8 @@ class TinderSwipe extends React.Component<IProps, any> {
         key={`card-${index}`}
         name={item.name}
         age={item.age}
-        index={index}
+        index={this.state.currentIndex < 0 ? -index : 1}
+        pushed={pushed!}
         profileImage={item.profileImage}
         custom={item.custom}
         blockRotateZ={this.props.blockZ!}

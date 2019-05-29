@@ -27,7 +27,7 @@ export default class App extends Component<Props, any> {
         <TinderSwipe
           ref={(ref) => this._tinderSwipe = ref}
           data={this._data}
-          onSwipeLeft={() =>  this._onPush()} 
+          onSwipeLeft={() =>  null} 
           blockY
         />
         <TouchableOpacity onPress={() => this._tinderSwipe!.pop()}>
