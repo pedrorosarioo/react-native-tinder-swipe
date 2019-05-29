@@ -113,7 +113,6 @@ export interface CardInfo {
 | onSwipeLeft             | (<a href="#card-info-type">CardInfo</a>) => void           | ---                       | Event that is fired when user swipes to left a card                                                                                                |
 | onSwipeRight             | (<a href="#card-info-type">CardInfo</a>) => void           | ---                       | Event that is fired when user swipes to right a card                                                                                                |
 | onNotSwipe             | (<a href="#card-info-type">CardInfo</a>) => void           | ---                       | Event that is fired when user return a card for it's default position                                                                                                |
-
 | onSwipeHasDone            | (<a href="#card-info-type">CardInfo</a>) => void           | ---                       | Event that is fired when swipe animation ends                                                                                                |
 | blockX                  | bool             | false                     | Block moves that translate the card horizontaly                                                                                                  |
 | blockY                  | bool             | false                     | Block moves that translate the card vertically                                                                                                  |
