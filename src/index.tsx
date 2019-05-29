@@ -29,7 +29,6 @@ class TinderSwipe extends React.Component<IProps, any> {
   public state = {
     pushedCards: [] as any,
     currentIndex: this.props.data.length-1,
-    pushedCardsSwipped: 0
   };
 
   public shouldComponentUpdate(nextProps: IProps, nextState: any) {
@@ -43,8 +42,8 @@ class TinderSwipe extends React.Component<IProps, any> {
   // UPDATE CURRENT INDEX AND CALL APPROPRIATED SWIPE EVENT
   private _onSwipe = (card: CardInfo, liked?: boolean) => {
 
-    const { onSwipeLeft, onSwipeRight, data } = this.props;
-    const { currentIndex, pushedCardsSwipped } = this.state;
+    const { onSwipeLeft, onSwipeRight } = this.props;
+    const { currentIndex } = this.state;
     const event = liked && onSwipeRight || onSwipeLeft;
     const isUsingPushedCards = currentIndex < 0;
 
@@ -84,7 +83,7 @@ class TinderSwipe extends React.Component<IProps, any> {
   }
 
   public push = (card: CardInfo) => {
-    this.setState((state: any) => ({ pushedCards: [... state.pushedCards, card], pushedCardsSwipped: 0 } ));
+    this.setState((state: any) => ({ pushedCards: [... state.pushedCards, card] } ));
   }
 
   private _renderCard = (item: CardInfo, index: number, pushed?: boolean) => {
