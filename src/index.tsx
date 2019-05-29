@@ -15,6 +15,7 @@ interface IProps {
   blockY?: boolean;
   blockX?: boolean;
   blockZ?: boolean;
+  disableSwipe?: boolean;
   onSwipeLeft?: (card: CardInfo) => void;
   onSwipeRight?: (card: CardInfo) => void;
   onNotSwipe?: (card: CardInfo) => void;
@@ -68,7 +69,7 @@ class TinderSwipe extends React.Component<IProps, any> {
 
   // SWIPE LEFT OR RIGHT THE CURRENT CARD
   public pop = (liked?: boolean) => {
-
+    const { disableSwipe } = this.props;
     const { currentIndex } = this.state;
     const propCard = this._propCardRefs[currentIndex];
     const pushedCard = this._pushedCardRefs[0];
@@ -78,13 +79,28 @@ class TinderSwipe extends React.Component<IProps, any> {
     }
     const swipe = liked && card.swipeRight || card.swipeLeft;
     
-    swipe();
+    return !disableSwipe && swipe();
     
     
   }
 
   public push = (cards: CardInfo[]) => {
     this.setState((state: any) => ({ pushedCards: [... state.pushedCards.slice(state.pushedCardsSwipped-1), ...cards], pushedCardsSwipped: 0 } ));
+  }
+
+  private isLocked = (index: number, pushed: boolean) => {
+    const { disableSwipe } = this.props;
+    const { currentIndex } = this.state;
+
+    if (disableSwipe) {
+      return true;
+    }
+
+    if ( currentIndex > 0 ) {
+      return index === currentIndex;
+    }
+
+    return pushed && index !== 0;
   }
 
   private _renderCard = (item: CardInfo, index: number, pushed?: boolean) => {
@@ -100,6 +116,7 @@ class TinderSwipe extends React.Component<IProps, any> {
         blockRotateZ={this.props.blockZ!}
         blockTranslateX={this.props.blockX!}
         blockTranslateY={this.props.blockY!}
+        movesLocked={this.props.disableSwipe!}
         onSwipeLeft={(card: CardInfo) => this._onSwipe(card, false)}
         onSwipeRight={(card: CardInfo) => this._onSwipe(card, true)}
         onSwipeHasDone={(card: CardInfo) => this._onSwipeHasDone(card)}

@@ -5,7 +5,12 @@ import {
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 
-export const Container = styled(Animated.View)`
+export const Container = styled(Animated.View).attrs(props => {
+  if (props.panResponder){
+    return { ...props.panResponder.panHandlers};
+  }
+  return null;
+})`
   position: absolute;
   border-radius: ${hp(3)}px;
   height: ${hp(70)}px;

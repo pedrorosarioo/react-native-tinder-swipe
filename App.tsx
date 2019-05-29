@@ -14,7 +14,13 @@ export default class App extends Component<Props, any> {
   public render() {
     return (
       <View style={styles.container}>
-        <TinderSwipe ref={(ref) => this._tinderSwipe = ref} data={this._data} onSwipeHasDone={() => this._tinderSwipe!.push([{ name: 'PUSHED CARD', age: 25, profileImage: require('./src/assets/image1.jpg')}]) } />
+        <TinderSwipe
+          ref={(ref) => this._tinderSwipe = ref}
+          data={this._data}
+          onSwipeHasDone={() => this._tinderSwipe!.push([{ name: 'PUSHED CARD', age: 25, profileImage: require('./src/assets/image1.jpg')}]) } 
+          blockY
+          disableSwipe
+        />
         <TouchableOpacity onPress={() => this._tinderSwipe!.pop()}>
           <Text>SWIPE LEFT</Text>
         </TouchableOpacity>

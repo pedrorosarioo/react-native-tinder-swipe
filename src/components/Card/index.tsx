@@ -33,6 +33,7 @@ interface IProps extends CardInfo {
   blockTranslateX?: boolean;
   blockTranslateY?: boolean;
   blockRotateZ?: boolean;
+  movesLocked?: boolean;
   index: number;
   onSwipeLeft?: (item: CardInfo) => void;
   onSwipeRight?: (item: CardInfo) => void;
@@ -80,7 +81,7 @@ class CardComponent extends React.PureComponent<IProps, any> {
     );
   };
 
-  private _panResponder: PanResponderInstance = PanResponder.create({
+  private _panResponder: PanResponderInstance | null = PanResponder.create({
     onMoveShouldSetPanResponder: (evt, gestureState) => true,
 
     onPanResponderMove: Animated.event([
@@ -152,7 +153,7 @@ class CardComponent extends React.PureComponent<IProps, any> {
             name,
             profileImage
           });
-          onSwipeHasDone && onSwipeHasDone({age, custom, name, profileImage});
+        hasSwiped && onSwipeHasDone && onSwipeHasDone({age, custom, name, profileImage});
       });
     }
   });
@@ -167,7 +168,8 @@ class CardComponent extends React.PureComponent<IProps, any> {
       profileImage,
       blockTranslateX,
       blockTranslateY,
-      blockRotateZ
+      blockRotateZ, 
+      movesLocked
     } = this.props;
 
     const rotateZ = x.interpolate({
@@ -187,12 +189,12 @@ class CardComponent extends React.PureComponent<IProps, any> {
 
     return (
       <Container
-        {...this._panResponder.panHandlers}
+        panResponder={!movesLocked && this._panResponder}
         style={{
           transform: [
             { translateX: blockTranslateX ? 0 : x },
             { translateY: blockTranslateY ? 0 : y },
-            { rotate: blockRotateZ ? 0 : rotateZ }
+            { rotate: blockRotateZ ? '0deg' : rotateZ }
           ]
         }}
       >
