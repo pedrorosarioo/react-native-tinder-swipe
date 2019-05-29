@@ -15,7 +15,7 @@ export default class App extends Component<Props, any> {
     this.setState({index: this.state.index+1});
 
     if (this.state.index < 40)
-    this._tinderSwipe!.push({ name: `PUSHED CARD ${this.state.index}`, age: 25, profileImage: require('./src/assets/image1.jpg')});
+    this._tinderSwipe!.push([{ name: `PUSHED CARD ${this.state.index}`, age: 25, profileImage: require('./src/assets/image1.jpg')}, { name: `PUSHED CARD ${this.state.index}`, age: 25, profileImage: require('./src/assets/image1.jpg')}]);
     
   }
   private _tinderSwipe: TinderSwipe | null = null;

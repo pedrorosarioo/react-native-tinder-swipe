@@ -82,8 +82,8 @@ class TinderSwipe extends React.Component<IProps, any> {
     
   }
 
-  public push = (card: CardInfo) => {
-    this.setState((state: any) => ({ pushedCards: [... state.pushedCards, card] } ));
+  public push = (cards: CardInfo[]) => {
+    this.setState((state: any) => ({ pushedCards: [... state.pushedCards, ...cards] } ));
   }
 
   private _renderCard = (item: CardInfo, index: number, pushed?: boolean) => {
