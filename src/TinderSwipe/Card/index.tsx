@@ -39,6 +39,7 @@ interface IProps extends CardInfo {
 class CardComponent extends React.PureComponent<IProps, any> {
   public state = {
     cardPosition: new Animated.ValueXY({ x: 0, y: 0 }),
+    display: 'flex',
   };
 
   private _offsets = { x: 0, y: 0 };
@@ -51,7 +52,10 @@ class CardComponent extends React.PureComponent<IProps, any> {
     Animated.timing(x, {
       toValue: -1.5 * width,
       duration: 400,
-    }).start(() => onSwipeHasDone && onSwipeHasDone({ age, custom, name, profileImage }));
+    }).start(() => {
+      this.setState({ display: 'none' });
+      return onSwipeHasDone && onSwipeHasDone({ age, custom, name, profileImage });
+    });
     return onSwipeLeft && onSwipeLeft({ age, custom, name, profileImage });
   };
 
@@ -63,12 +67,15 @@ class CardComponent extends React.PureComponent<IProps, any> {
     Animated.timing(x, {
       toValue: 1.5 * width,
       duration: 400,
-    }).start(() => onSwipeHasDone && onSwipeHasDone({ age, custom, name, profileImage }));
+    }).start(() => {
+      this.setState({ display: 'none' });
+      return onSwipeHasDone && onSwipeHasDone({ age, custom, name, profileImage });
+    });
     return onSwipeRight && onSwipeRight({ age, custom, name, profileImage });
   };
 
   private _getMoveValue = (liked: boolean, denied: boolean) => {
-    return (liked && width) || (denied && -width) || 0;
+    return (liked && 1.5 * width) || (denied && -1.5 * width) || 0;
   };
 
   private _getOnMoveEvent = (liked: boolean, denied: boolean) => {
@@ -146,7 +153,10 @@ class CardComponent extends React.PureComponent<IProps, any> {
             name,
             profileImage,
           });
-        hasSwiped && onSwipeHasDone && onSwipeHasDone({ age, custom, name, profileImage });
+        if (hasSwiped) {
+          this.setState({ display: 'none' });
+          onSwipeHasDone && onSwipeHasDone({ age, custom, name, profileImage });
+        }
       });
     },
   });
@@ -183,6 +193,7 @@ class CardComponent extends React.PureComponent<IProps, any> {
             { translateY: blockTranslateY ? 0 : y },
             { rotate: blockRotateZ ? '0deg' : rotateZ },
           ],
+          display: this.state.display,
         }}>
         {(custom && custom.mainComponent && custom.mainComponent()) || <ProfileImage source={profileImage!} />}
         <AfirmativeLabelContainer style={{ opacity: likeOpacity }}>

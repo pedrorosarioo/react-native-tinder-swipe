@@ -13,7 +13,7 @@ export const Container = styled(Animated.View).attrs(props => {
   ${props => (!props.hasCustom ? `height: ${hp(70)}px; width: ${wp(80)}px` : null)}
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow: visible;
   align-self: center;
   z-index: ${props => props.zIndex};
 `;
