@@ -1,24 +1,21 @@
 import { Animated } from 'react-native';
 import styled from 'styled-components/native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export const Container = styled(Animated.View).attrs(props => {
-  if (props.panResponder){
-    return { ...props.panResponder.panHandlers};
+  if (props.panResponder) {
+    return { ...props.panResponder.panHandlers };
   }
   return null;
 })`
   position: absolute;
   border-radius: ${hp(3)}px;
-  ${props => !props.hasCustom ? `height: ${hp(70)}px; width: ${wp(80)}px` : null}
+  ${props => (!props.hasCustom ? `height: ${hp(70)}px; width: ${wp(80)}px` : null)}
   align-items: center;
   justify-content: center;
   overflow: hidden;
   align-self: center;
-  z-index: ${props => props.zIndex}
+  z-index: ${props => props.zIndex};
 `;
 
 export const AfirmativeLabel = styled.Text`

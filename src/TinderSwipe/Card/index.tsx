@@ -6,22 +6,16 @@ import {
   NegativeLabelContainer,
   Container,
   Label,
-  ProfileImage
-} from './components';
-import {
-  Dimensions,
-  Animated,
-  PanResponder,
-  PanResponderInstance,
-  ImageSourcePropType
-} from 'react-native';
+  ProfileImage,
+} from './Card';
+import { Dimensions, Animated, PanResponder, PanResponderInstance, ImageSourcePropType } from 'react-native';
 
 const { width } = Dimensions.get('window');
 
 export interface CardInfo {
-  name: string;
-  profileImage: ImageSourcePropType;
-  age: number;
+  name?: string;
+  profileImage?: ImageSourcePropType;
+  age?: number;
   custom?: {
     mainComponent: () => React.ReactNode;
     positiveLabelComponent: () => React.ReactNode;
@@ -44,42 +38,41 @@ interface IProps extends CardInfo {
 
 class CardComponent extends React.PureComponent<IProps, any> {
   public state = {
-    cardPosition: new Animated.ValueXY({ x: 0, y: 0 })
+    cardPosition: new Animated.ValueXY({ x: 0, y: 0 }),
   };
 
   private _offsets = { x: 0, y: 0 };
 
   public swipeLeft = () => {
     const { age, custom, name, profileImage, onSwipeLeft, onSwipeHasDone } = this.props;
-    const { cardPosition: { x } } = this.state;
+    const {
+      cardPosition: { x },
+    } = this.state;
     Animated.timing(x, {
       toValue: -1.5 * width,
-      duration: 400
-    }).start(() => onSwipeHasDone && onSwipeHasDone({age, custom, name, profileImage}));
-    return onSwipeLeft && onSwipeLeft({age, custom, name, profileImage});
-  }
+      duration: 400,
+    }).start(() => onSwipeHasDone && onSwipeHasDone({ age, custom, name, profileImage }));
+    return onSwipeLeft && onSwipeLeft({ age, custom, name, profileImage });
+  };
 
   public swipeRight = () => {
     const { age, custom, name, profileImage, onSwipeRight, onSwipeHasDone } = this.props;
-    const { cardPosition: { x } } = this.state;
+    const {
+      cardPosition: { x },
+    } = this.state;
     Animated.timing(x, {
       toValue: 1.5 * width,
-      duration: 400
-    }).start(() => onSwipeHasDone && onSwipeHasDone({age, custom, name, profileImage}));
-    return onSwipeRight && onSwipeRight({age, custom, name, profileImage});
-  }
-
+      duration: 400,
+    }).start(() => onSwipeHasDone && onSwipeHasDone({ age, custom, name, profileImage }));
+    return onSwipeRight && onSwipeRight({ age, custom, name, profileImage });
+  };
 
   private _getMoveValue = (liked: boolean, denied: boolean) => {
     return (liked && width) || (denied && -width) || 0;
   };
 
   private _getOnMoveEvent = (liked: boolean, denied: boolean) => {
-    return (
-      (liked && this.props.onSwipeRight) ||
-      (denied && this.props.onSwipeLeft) ||
-      this.props.onNotSwipe
-    );
+    return (liked && this.props.onSwipeRight) || (denied && this.props.onSwipeLeft) || this.props.onNotSwipe;
   };
 
   private _panResponder: PanResponderInstance | null = PanResponder.create({
@@ -89,8 +82,8 @@ class CardComponent extends React.PureComponent<IProps, any> {
       null,
       {
         dx: this.state.cardPosition.x,
-        dy: this.state.cardPosition.y
-      }
+        dy: this.state.cardPosition.y,
+      },
     ]),
 
     onPanResponderRelease: (e, gestureState) => {
@@ -110,41 +103,40 @@ class CardComponent extends React.PureComponent<IProps, any> {
 
       cardPosition.setOffset({
         x: this._offsets.x,
-        y: this._offsets.y
+        y: this._offsets.y,
       });
 
       cardPosition.setValue({
         x: 0,
-        y: 0
+        y: 0,
       });
 
       if (!hasSwiped) {
         cardPosition.setValue({
           x: this._offsets.x,
-          y: this._offsets.y
+          y: this._offsets.y,
         });
         cardPosition.setOffset({
           x: 0,
-          y: 0
+          y: 0,
         });
       }
 
       Animated.timing(cardPosition.x, {
         toValue: moveValue,
-        duration: 200
+        duration: 200,
       }).start(() => {
-          
         this._offsets.x = moveValue;
 
         cardPosition.setOffset({
           x: this._offsets.x,
-          y: this._offsets.y
+          y: this._offsets.y,
         });
 
         !hasSwiped &&
           cardPosition.setValue({
             x: 0,
-            y: 0
+            y: 0,
           });
 
         event &&
@@ -152,40 +144,32 @@ class CardComponent extends React.PureComponent<IProps, any> {
             age,
             custom,
             name,
-            profileImage
+            profileImage,
           });
-        hasSwiped && onSwipeHasDone && onSwipeHasDone({age, custom, name, profileImage});
+        hasSwiped && onSwipeHasDone && onSwipeHasDone({ age, custom, name, profileImage });
       });
-    }
+    },
   });
 
   public render() {
     const {
-      cardPosition: { x, y }
+      cardPosition: { x, y },
     } = this.state;
-    const {
-      custom,
-      name,
-      profileImage,
-      blockTranslateX,
-      blockTranslateY,
-      blockRotateZ, 
-      movesLocked
-    } = this.props;
+    const { custom, name, profileImage, blockTranslateX, blockTranslateY, blockRotateZ, movesLocked } = this.props;
 
     const rotateZ = x.interpolate({
       inputRange: [-width / 2, width / 2],
-      outputRange: [15 + 'deg', -15 + 'deg']
+      outputRange: [15 + 'deg', -15 + 'deg'],
     });
 
     const likeOpacity = x.interpolate({
       inputRange: [0, width / 4],
-      outputRange: [0, 1]
+      outputRange: [0, 1],
     });
 
     const nopeOpacity = x.interpolate({
       inputRange: [-width / 4, 0],
-      outputRange: [1, 0]
+      outputRange: [1, 0],
     });
 
     return (
@@ -197,24 +181,17 @@ class CardComponent extends React.PureComponent<IProps, any> {
           transform: [
             { translateX: blockTranslateX ? 0 : x },
             { translateY: blockTranslateY ? 0 : y },
-            { rotate: blockRotateZ ? '0deg' : rotateZ }
-          ]
-        }}
-      >
-        {(custom && custom.mainComponent && custom.mainComponent()) || (
-          <ProfileImage source={profileImage} />
-        )}
+            { rotate: blockRotateZ ? '0deg' : rotateZ },
+          ],
+        }}>
+        {(custom && custom.mainComponent && custom.mainComponent()) || <ProfileImage source={profileImage!} />}
         <AfirmativeLabelContainer style={{ opacity: likeOpacity }}>
-          {(custom &&
-            custom.positiveLabelComponent &&
-            custom.positiveLabelComponent()) || (
+          {(custom && custom.positiveLabelComponent && custom.positiveLabelComponent()) || (
             <AfirmativeLabel>LIKE</AfirmativeLabel>
           )}
         </AfirmativeLabelContainer>
         <NegativeLabelContainer style={{ opacity: nopeOpacity }}>
-          {(custom &&
-            custom.negativeLabelComponent &&
-            custom.negativeLabelComponent()) || (
+          {(custom && custom.negativeLabelComponent && custom.negativeLabelComponent()) || (
             <NegativeLabel>NOPE</NegativeLabel>
           )}
         </NegativeLabelContainer>

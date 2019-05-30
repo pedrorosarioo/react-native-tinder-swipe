@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 
-import TinderSwipe from './src';
+import TinderSwipe from './src/TinderSwipe/index';
 import mock from './src/assets/mock';
 
 interface Props {}
