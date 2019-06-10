@@ -83,7 +83,10 @@ class CardComponent extends React.PureComponent<IProps, any> {
   };
 
   private _panResponder: PanResponderInstance | null = PanResponder.create({
-    onMoveShouldSetPanResponder: (evt, gestureState) => true,
+    onMoveShouldSetPanResponder: (evt, gestureState) => {
+      const { dx, dy } = gestureState;
+      return dx > 3 || dx < -3 || dy > 3 || dy < -3;
+    },
 
     onPanResponderMove: Animated.event([
       null,
